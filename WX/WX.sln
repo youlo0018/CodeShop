@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31129.286
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "站点", "站点", "{931F2542-ABF4-4196-9AB5-1C6FC16776D0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "数据", "数据", "{A09180F1-6652-4039-BCFB-EA91DCCD3BCC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "工具", "工具", "{813821A3-CAAB-447B-BE42-D345DE1068C6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "业务", "业务", "{79F45934-1799-4433-A020-A8121C99EE3A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rsacryption", "Rsacryption\Rsacryption.csproj", "{C694E339-6603-43C0-84EF-92B0416836BA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C694E339-6603-43C0-84EF-92B0416836BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C694E339-6603-43C0-84EF-92B0416836BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C694E339-6603-43C0-84EF-92B0416836BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C694E339-6603-43C0-84EF-92B0416836BA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C694E339-6603-43C0-84EF-92B0416836BA} = {813821A3-CAAB-447B-BE42-D345DE1068C6}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3E3C38FB-8DCF-4D20-84C8-76CD212DEAC4}
+	EndGlobalSection
+EndGlobal
