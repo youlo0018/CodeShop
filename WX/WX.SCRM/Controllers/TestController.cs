@@ -14,6 +14,7 @@ namespace WX.SCRM.Controllers
         public string TestSwagger()
         {
             return "1";
+
         }
         [HttpPost]
         public string TestPostSwagger()
