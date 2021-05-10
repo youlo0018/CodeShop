@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Common.Uilt;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WX.SCRM.Uilt;
+using static WX.AdvancedTools.config;
 
 namespace WX.SCRM.Controllers
 {
@@ -22,6 +24,7 @@ namespace WX.SCRM.Controllers
             return "12";
 
         }
+        [HiddenApi]
         [HttpPost]
         public string TestPostSwagger(MovieModel movie)
         {

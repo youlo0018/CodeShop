@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using static WX.AdvancedTools.config;
 
 namespace WX.SCRM
 {
@@ -36,6 +37,7 @@ namespace WX.SCRM
                                                                                         //var basePath = AppContext.BaseDirectory;
                 var xmlPath = Path.Combine(basePath, "WX.SCRM.xml");//这个就是刚刚配置的xml文件名
                 c.IncludeXmlComments(xmlPath, true);//默认的第二个参数是false,对方法的注释
+                c.DocumentFilter<HiddenApiFilter>();
                 // c.IncludeXmlComments(xmlPath,true); //这个是controller的注释
             });
             services.AddControllers();
