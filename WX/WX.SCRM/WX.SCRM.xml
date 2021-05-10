@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WX.SCRM</name>
+    </assembly>
+    <members>
+        <member name="T:WX.SCRM.Controllers.TestController">
+            <summary>
+            测试控制器
+            </summary>
+        </member>
+        <member name="M:WX.SCRM.Controllers.TestController.TestSwagger">
+            <summary>
+            测试swagger
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:WX.SCRM.Controllers.TestController.MovieModel">
+            <summary>
+            这是电影实体类
+            </summary>
+        </member>
+        <member name="P:WX.SCRM.Controllers.TestController.MovieModel.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:WX.SCRM.Controllers.TestController.MovieModel.Name">
+            <summary>
+            影片名称
+            </summary>
+        </member>
+        <member name="P:WX.SCRM.Controllers.TestController.MovieModel.Type">
+            <summary>
+            类型
+            </summary>
+        </member>
+        <member name="M:WX.SCRM.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="M:WX.SCRM.Uilt.BaseController.ErrorResult(Common.Uilt.ResponseCode,System.String)">
+            <summary>
+            返回失败
+            </summary>
+            <param name="code"></param>
+            <param name="error"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WX.SCRM.Uilt.BaseController.SuccessResult(System.Object,Common.Uilt.ResponseCode,System.String)">
+            <summary>
+            返回成功
+            </summary>
+            <param name="body"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
