@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "Rqh7lyNyiZMHuSgckfPqyFCIIYyumlg2KbaEMxMorlX3WS5uFYWuQPOI7ZD5dCzg9q0Iu/u8XgHvTWrgo/2wEw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\EDZ\\source\\repos\\youlo0018\\CodeShop\\WX\\Common\\Common.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\EDZ\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\EDZ\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.1.4\\swashbuckle.aspnetcore.swagger.6.1.4.nupkg.sha512"
+  ],
+  "logs": []
+}

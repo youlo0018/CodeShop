@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\EDZ\\source\\repos\\youlo0018\\CodeShop\\WX\\Rsacryption\\Rsacryption.csproj": {}
+    "C:\\Users\\EDZ\\source\\repos\\youlo0018\\CodeShop\\WX\\WX.SCRM\\WX.SCRM.csproj": {}
   },
   "projects": {
-    "C:\\Users\\EDZ\\source\\repos\\youlo0018\\CodeShop\\WX\\Rsacryption\\Rsacryption.csproj": {
+    "C:\\Users\\EDZ\\source\\repos\\youlo0018\\CodeShop\\WX\\WX.SCRM\\WX.SCRM.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\EDZ\\source\\repos\\youlo0018\\CodeShop\\WX\\Rsacryption\\Rsacryption.csproj",
-        "projectName": "Rsacryption",
-        "projectPath": "C:\\Users\\EDZ\\source\\repos\\youlo0018\\CodeShop\\WX\\Rsacryption\\Rsacryption.csproj",
+        "projectUniqueName": "C:\\Users\\EDZ\\source\\repos\\youlo0018\\CodeShop\\WX\\WX.SCRM\\WX.SCRM.csproj",
+        "projectName": "WX.SCRM",
+        "projectPath": "C:\\Users\\EDZ\\source\\repos\\youlo0018\\CodeShop\\WX\\WX.SCRM\\WX.SCRM.csproj",
         "packagesPath": "C:\\Users\\EDZ\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\EDZ\\source\\repos\\youlo0018\\CodeShop\\WX\\Rsacryption\\obj\\",
+        "outputPath": "C:\\Users\\EDZ\\source\\repos\\youlo0018\\CodeShop\\WX\\WX.SCRM\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\EDZ\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -39,12 +39,6 @@
       "frameworks": {
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
-          "dependencies": {
-            "Microsoft.CSharp": {
-              "target": "Package",
-              "version": "[4.7.0, )"
-            }
-          },
           "imports": [
             "net461",
             "net462",
@@ -56,6 +50,9 @@
           "assetTargetFallback": true,
           "warn": true,
           "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }

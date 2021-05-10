@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\EDZ\\source\\repos\\youlo0018\\CodeShop\\WX\\Rsacryption\\Rsacryption.csproj": {}
+    "C:\\Users\\EDZ\\source\\repos\\youlo0018\\CodeShop\\WX\\Common\\Common.csproj": {}
   },
   "projects": {
-    "C:\\Users\\EDZ\\source\\repos\\youlo0018\\CodeShop\\WX\\Rsacryption\\Rsacryption.csproj": {
+    "C:\\Users\\EDZ\\source\\repos\\youlo0018\\CodeShop\\WX\\Common\\Common.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\EDZ\\source\\repos\\youlo0018\\CodeShop\\WX\\Rsacryption\\Rsacryption.csproj",
-        "projectName": "Rsacryption",
-        "projectPath": "C:\\Users\\EDZ\\source\\repos\\youlo0018\\CodeShop\\WX\\Rsacryption\\Rsacryption.csproj",
+        "projectUniqueName": "C:\\Users\\EDZ\\source\\repos\\youlo0018\\CodeShop\\WX\\Common\\Common.csproj",
+        "projectName": "Common",
+        "projectPath": "C:\\Users\\EDZ\\source\\repos\\youlo0018\\CodeShop\\WX\\Common\\Common.csproj",
         "packagesPath": "C:\\Users\\EDZ\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\EDZ\\source\\repos\\youlo0018\\CodeShop\\WX\\Rsacryption\\obj\\",
+        "outputPath": "C:\\Users\\EDZ\\source\\repos\\youlo0018\\CodeShop\\WX\\Common\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\EDZ\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -40,9 +40,9 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "dependencies": {
-            "Microsoft.CSharp": {
+            "Swashbuckle.AspNetCore.Swagger": {
               "target": "Package",
-              "version": "[4.7.0, )"
+              "version": "[6.1.4, )"
             }
           },
           "imports": [

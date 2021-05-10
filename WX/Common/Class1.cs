@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Rsacryption
+namespace Common
 {
     public class Class1
     {
