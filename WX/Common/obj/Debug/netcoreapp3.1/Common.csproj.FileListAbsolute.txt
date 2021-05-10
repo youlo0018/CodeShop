@@ -1,9 +1,0 @@
-C:\Users\EDZ\source\repos\youlo0018\CodeShop\WX\Common\bin\Debug\netcoreapp3.1\Common.deps.json
-C:\Users\EDZ\source\repos\youlo0018\CodeShop\WX\Common\bin\Debug\netcoreapp3.1\Common.dll
-C:\Users\EDZ\source\repos\youlo0018\CodeShop\WX\Common\bin\Debug\netcoreapp3.1\Common.pdb
-C:\Users\EDZ\source\repos\youlo0018\CodeShop\WX\Common\obj\Debug\netcoreapp3.1\Common.csprojAssemblyReference.cache
-C:\Users\EDZ\source\repos\youlo0018\CodeShop\WX\Common\obj\Debug\netcoreapp3.1\Common.AssemblyInfoInputs.cache
-C:\Users\EDZ\source\repos\youlo0018\CodeShop\WX\Common\obj\Debug\netcoreapp3.1\Common.AssemblyInfo.cs
-C:\Users\EDZ\source\repos\youlo0018\CodeShop\WX\Common\obj\Debug\netcoreapp3.1\Common.csproj.CoreCompileInputs.cache
-C:\Users\EDZ\source\repos\youlo0018\CodeShop\WX\Common\obj\Debug\netcoreapp3.1\Common.dll
-C:\Users\EDZ\source\repos\youlo0018\CodeShop\WX\Common\obj\Debug\netcoreapp3.1\Common.pdb
