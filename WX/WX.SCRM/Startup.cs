@@ -24,8 +24,8 @@ namespace WX.SCRM
                     Version = "V1",   //版本 
                     Title = $"XUnit.Core 接口文档-NetCore3.1",  //标题
                     Description = $"XUnit.Core Http API v1",    //描述
-                    Contact = new OpenApiContact { Name = "Youlo0018", Email = "", Url = new Uri("") },
-                    License = new OpenApiLicense { Name = "Youlo0018许可证", Url = new Uri("") }
+                    Contact = new OpenApiContact { Name = "Youlo0018", Email = "", Url = new Uri("http://baidu.com") },
+                    License = new OpenApiLicense { Name = "Youlo0018许可证", Url = new Uri("http://baidu.com") }
                 });
             });
             services.AddControllers();
