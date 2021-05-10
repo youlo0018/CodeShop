@@ -3,13 +3,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WX.SCRM.Uilt;
 
 namespace WX.SCRM.Controllers
 {
-    [Produces("application/json")] //返回数据的格式 直接约定为Json
-    [Route("api/[controller]/[action]")]  //路由
-    public class TestController : Controller
+ 
+    public class TestController : BaseController
     {
+        /// <summary>
+        /// 测试swagger
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public string TestSwagger()
         {
