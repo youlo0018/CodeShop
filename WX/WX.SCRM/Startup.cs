@@ -47,8 +47,12 @@ namespace WX.SCRM
                 // c.RoutePrefix = "swagger"; // 如果你想换一个路径，直接写名字即可，比如直接写c.RoutePrefix = "swagger"; 则访问路径为 根域名/swagger/index.html
             });
             app.UseRouting();
+            app.UseEndpoints(endpoints =>
+            {
+            
+                endpoints.MapControllers();
+            });
 
-          
         }
     }
 }
