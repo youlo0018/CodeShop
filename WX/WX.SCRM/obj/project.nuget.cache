@@ -1,8 +1,15 @@
 {
   "version": 2,
-  "dgSpecHash": "epgrTaXcrWIbpaqqxi30wInO5o5RV6tKqqdviAqVeE66n0+84OAXz1S33IQat8HPl6lznTlmQXNpeVhf5I3Uig==",
+  "dgSpecHash": "1iubIQdXlWVfqMkSXjRNXzyRoRFzVKWWSfVIEA1FDAAswYJ4OF1mSo9RXH9OMK8BRB2DAkd3aziC33caIgcMog==",
   "success": true,
   "projectFilePath": "C:\\Users\\EDZ\\source\\repos\\youlo0018\\CodeShop\\WX\\WX.SCRM\\WX.SCRM.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\EDZ\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
+    "C:\\Users\\EDZ\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\EDZ\\.nuget\\packages\\swashbuckle.aspnetcore\\6.1.4\\swashbuckle.aspnetcore.6.1.4.nupkg.sha512",
+    "C:\\Users\\EDZ\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.1.4\\swashbuckle.aspnetcore.swagger.6.1.4.nupkg.sha512",
+    "C:\\Users\\EDZ\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.1.4\\swashbuckle.aspnetcore.swaggergen.6.1.4.nupkg.sha512",
+    "C:\\Users\\EDZ\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.1.4\\swashbuckle.aspnetcore.swaggerui.6.1.4.nupkg.sha512"
+  ],
   "logs": []
 }
