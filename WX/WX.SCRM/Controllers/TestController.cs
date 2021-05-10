@@ -13,7 +13,7 @@ namespace WX.SCRM.Controllers
         [HttpGet]
         public string TestSwagger()
         {
-            return "1";
+            return "12";
 
         }
         [HttpPost]
