@@ -1,5 +1,12 @@
 {
   "Base": {
     "HiddenApi": false
+  },
+  "Cache": {
+    "Module": "redis",
+    "Redis": {
+      "ConnString": "121.40.182.35:6379,password=Aa123456..,ssl=False,abortConnect=False,defaultDatabase=0,connectTimeout=15000,poolsize=3000,preheat=100"
+    }
+
   }
 }

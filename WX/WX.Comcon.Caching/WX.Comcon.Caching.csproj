@@ -5,8 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CSRedisCore" Version="3.6.6" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4" />
+    <PackageReference Include="StackExchange.Redis" Version="2.2.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj" />
   </ItemGroup>
 
 </Project>

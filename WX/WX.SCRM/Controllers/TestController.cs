@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WX.Comcon.Caching.Redis;
 using WX.SCRM.Uilt;
 using static WX.AdvancedTools.config;
 
@@ -29,6 +30,12 @@ namespace WX.SCRM.Controllers
         public string TestPostSwagger(MovieModel movie)
         {
             return "1";
+        }
+        [HttpGet]
+        public async Task<string> TestPostRedis(MovieModel movie)
+        {
+            await RedisCache.Instance.SetAsync("aaa", "bbb", new Comcon.Caching.Abstractions.DistributedCacheEntryOptions { SlidingExpiration = TimeSpan.FromSeconds(20) });
+            return  RedisCache.Instance.Get("aaa").ToString();
         }
         /// <summary>
         /// 这是电影实体类

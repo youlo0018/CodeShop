@@ -13,7 +13,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj" />
     <ProjectReference Include="..\WX.AdvancedTools\WX.AdvancedTools.csproj" />
+    <ProjectReference Include="..\WX.Comcon.Caching\WX.Comcon.Caching.csproj" />
     <ProjectReference Include="..\WX.DataCache\WX.DataCache.csproj" />
   </ItemGroup>
 

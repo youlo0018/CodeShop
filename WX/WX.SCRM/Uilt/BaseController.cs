@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WX.Comcon.Caching.Redis;
 
 namespace WX.SCRM.Uilt
 {
@@ -11,6 +12,7 @@ namespace WX.SCRM.Uilt
     [Route("api/[controller]/[action]")]  //路由
     public class BaseController : Controller
     {
+      
         /// <summary>
         /// 返回失败
         /// </summary>

@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using WX.Comcon.Caching;
 using static WX.AdvancedTools.config;
 
 namespace WX.SCRM
@@ -23,6 +24,7 @@ namespace WX.SCRM
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
+            #region swagger
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("V1", new OpenApiInfo
@@ -40,6 +42,15 @@ namespace WX.SCRM
                 c.DocumentFilter<HiddenApiFilter>();
                 // c.IncludeXmlComments(xmlPath,true); //这个是controller的注释
             });
+            #endregion
+            #region Redis
+            services.AddDistributedRedisCache(new Comcon.Caching.Redis.RedisCacheOptions
+            {
+                Configuration = DataCache.Config.RedisUrl,
+                InstanceName = ""
+            });
+            #endregion
+
             services.AddControllers();
         }
 
