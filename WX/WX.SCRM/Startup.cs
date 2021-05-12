@@ -1,3 +1,4 @@
+using Common.service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -50,7 +51,9 @@ namespace WX.SCRM
                 InstanceName = ""
             });
             #endregion
-
+            #region 注册缓存和实体表单验证
+            services.AddPropertyAttributesAndMemoryCache();
+            #endregion
             services.AddControllers();
         }
 
