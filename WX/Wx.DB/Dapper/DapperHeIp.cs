@@ -22,7 +22,7 @@ namespace WX.DB.Dapper
         /// 是否保存sql在执行中的错误
         /// </summary>
         public static bool isSaveErrorLog = true;
-
+        
 
         private static object CheckWhereParam(this object whereParam)
         {
@@ -48,7 +48,7 @@ namespace WX.DB.Dapper
         /// <param name="whereParam">查询条件，支持new{id=1,status=1}对象和字段名称=value</param>
         /// <param name="selectField">要返回的字段，null为返回所有字段，返回某个字段则为：new{id=0,title="",status=0}或字段名称+逗号的形式</param>
         /// <returns></returns>
-        public static T GetModel<T,T1>(this T1 conStr, object selectField, object whereParam)where T1: DbConnection
+        public static T GetModel<T>(this DbConnection conStr, object selectField, object whereParam)
         {
             var querySql = GetAntiXssSql(CreateQueryTSql(GetTableName(typeof(T)), selectField, whereParam));
             try
@@ -76,7 +76,7 @@ namespace WX.DB.Dapper
         /// <param name="conStr"></param>
         /// <param name="filterDeleted"> </param>
         /// <returns></returns>
-        public static T GetModel<T, T1>(this T1 conStr, bool filterDeleted = true) where T1 : DbConnection
+        public static T GetModel<T>(this DbConnection conStr, bool filterDeleted = true)
         {
             var querySql = $"select * from  {GetTableName(typeof(T))}(nolock)   {(filterDeleted ? " where deleted=0" : "")}  ";
             try
@@ -105,19 +105,18 @@ namespace WX.DB.Dapper
         /// <param name="conStr"></param>
         /// <param name="id"> </param>
         /// <returns></returns>
-        public static T GetModel<T>(this string conStr, int id, bool filterDeleted = true)
+        public static T GetModel<T>(this DbConnection conStr, int id, bool filterDeleted = true)
         {
             var querySql = $"select * from  {GetTableName(typeof(T))}(nolock) where id={id} {(filterDeleted ? " and deleted=0" : "")}  ";
             try
             {
-                using (MySqlConnection con = new MySqlConnection(conStr))
-                {
-                    var list = con.Query<T>(querySql, null);
+               
+                    var list = conStr.Query<T>(querySql, null);
                     if (list != null)
                         return list.FirstOrDefault();
 
                     return default(T);
-                }
+                
 
             }
             catch (Exception ex)
@@ -1373,7 +1372,7 @@ namespace WX.DB.Dapper
 
             #region 查询字段
             if (selectField != null)
-                sql = $"select {CreateQueryFiedlTsql(selectField)} from  { tableName}{(isNoLock ? "(nolock)" : "")}";
+                sql = $"select {CreateQueryFiedlTsql(selectField)} from  { tableName}";
             else
                 sql = $"select * from  {tableName}{(isNoLock ? "(nolock)" : "")}   ";
             #endregion

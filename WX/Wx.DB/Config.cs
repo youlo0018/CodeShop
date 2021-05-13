@@ -9,8 +9,8 @@ namespace WX.DB
 {
    public class Config
     {
-        public static MySqlConnection HiddenApi =>new MySqlConnection(WX.DataCache.Config.Dbconstr);
-
+        public static MySqlConnection Sys_Param =>new MySqlConnection(WX.DataCache.Config.Dbconstr);
+        public static MySqlConnection DominSys_Param => new MySqlConnection(WX.DataCache.Config.DominDbconstr);
 
         /// <summary>
         /// 检查是否是只读连接并且标记为只读的， 休眠一秒

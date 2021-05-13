@@ -15,8 +15,12 @@ namespace WX.DataCache
         /// </summary>
         public static string RedisUrl=> ConfigurationManager.AppSettings["Cache:Redis:ConnString"].ToString();
         /// <summary>
-        /// 配置数据库连接字符串
+        /// 公共配置数据库连接字符串
         /// </summary>
-        public static string Dbconstr => ConfigurationManager.AppSettings["DBConnStr:Sys_parmt:MySqlConnection"].ToString();
+        public static string Dbconstr => ConfigurationManager.AppSettings["DBConnStr:MySqlConnection:Sys_param"].ToString();
+        /// <summary>
+        /// 本地配置数据库连接字符串
+        /// </summary>
+        public static string DominDbconstr => ConfigurationManager.AppSettings["DBConnStr:MySqlConnection:Domin_param"].ToString();
     }
 }
