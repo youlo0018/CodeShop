@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Extensions.Caching.Memory;
-using Common.Attributes;
+using WX.Common.Attributes;
 
-namespace Common.service
+namespace WX.Common.service
 {
     public static class Register
     {

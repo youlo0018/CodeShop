@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Common.Attributes
+namespace WX.Common.Attributes
 {
     public class PropertyAttributes
     {

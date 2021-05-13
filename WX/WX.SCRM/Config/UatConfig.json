@@ -1,4 +1,9 @@
 {
+  "DBConnStr": {
+    "MySqlConnection": {
+      "Sys_parmt": "Database=Sys_parmt;Data Source=121.40.182.35;User Id=root;Password=Aa123456..;CharSet=utf8;port=3306"
+    }
+  },
   "Base": {
     "HiddenApi": false
   },

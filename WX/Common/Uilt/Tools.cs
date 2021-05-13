@@ -1,11 +1,14 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Common.Uilt
+namespace WX.Common.Uilt
 {
    public class Tools
     {
@@ -92,5 +95,52 @@ namespace Common.Uilt
         #endregion
 
     }
-   
+    #region //HttpContext
+
+    /// <summary>
+    /// 上下文对象,程序里都可以使用
+    /// </summary>
+    public static class HttpContext
+    {
+        private static IHttpContextAccessor _accessor;
+
+        public static Microsoft.AspNetCore.Http.HttpContext Current
+        {
+            get
+            {
+                if (_accessor == null)
+                    return null;
+                return _accessor.HttpContext;
+            }
+        }
+
+        internal static void Configure(IHttpContextAccessor accessor)
+        {
+            _accessor = accessor;
+        }
+
+
+    }
+
+    /// <summary>
+    /// IServiceCollection 扩展方法, 用于注册HttpContext
+    /// </summary>
+    public static class StaticHttpContextExtensions
+    {
+        public static void AddHttpContextAccessor(this IServiceCollection services)
+        {
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+        }
+
+        //注册使用HttpContext
+        public static IApplicationBuilder UseStaticHttpContext(this IApplicationBuilder app)
+        {
+            var httpContextAccessor = app.ApplicationServices.GetRequiredService<IHttpContextAccessor>();
+            HttpContext.Configure(httpContextAccessor);
+            return app;
+        }
+    }
+
+    #endregion
+
 }

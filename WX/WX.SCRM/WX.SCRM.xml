@@ -41,7 +41,7 @@
             </summary>
             <param name="services"></param>
         </member>
-        <member name="M:WX.SCRM.Uilt.BaseController.ErrorResult(Common.Uilt.ResponseCode,System.String)">
+        <member name="M:WX.SCRM.Uilt.BaseController.ErrorResult(WX.Common.Uilt.ResponseCode,System.String)">
             <summary>
             返回失败
             </summary>
@@ -49,7 +49,7 @@
             <param name="error"></param>
             <returns></returns>
         </member>
-        <member name="M:WX.SCRM.Uilt.BaseController.SuccessResult(System.Object,Common.Uilt.ResponseCode,System.String)">
+        <member name="M:WX.SCRM.Uilt.BaseController.SuccessResult(System.Object,WX.Common.Uilt.ResponseCode,System.String)">
             <summary>
             返回成功
             </summary>

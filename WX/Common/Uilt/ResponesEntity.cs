@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Common.Uilt
+namespace WX.Common.Uilt
 {
     /// <summary>
     /// 外部接口返回实体

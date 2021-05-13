@@ -1,6 +1,6 @@
-﻿using Common;
+﻿using WX.Common;
 using System;
-using static Common.Uilt.Tools;
+using static WX.Common.Uilt.Tools;
 
 namespace WX.DataCache
 {
@@ -14,5 +14,9 @@ namespace WX.DataCache
         /// 是否隐藏所有的api接口
         /// </summary>
         public static string RedisUrl=> ConfigurationManager.AppSettings["Cache:Redis:ConnString"].ToString();
+        /// <summary>
+        /// 配置数据库连接字符串
+        /// </summary>
+        public static string Dbconstr => ConfigurationManager.AppSettings["DBConnStr:Sys_parmt:MySqlConnection"].ToString();
     }
 }

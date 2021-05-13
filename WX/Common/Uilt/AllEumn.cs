@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 
-namespace Common.Uilt
+namespace WX.Common.Uilt
 {
     public enum ResponseCode
     {
