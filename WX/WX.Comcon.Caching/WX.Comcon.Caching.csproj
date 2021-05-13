@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Common\WX.Common.csproj" />
+    <ProjectReference Include="..\Wx.DB\WX.DB.csproj" />
   </ItemGroup>
 
 </Project>

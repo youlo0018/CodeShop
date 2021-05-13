@@ -22,7 +22,7 @@ namespace WX.DB.Dapper
         /// 是否保存sql在执行中的错误
         /// </summary>
         public static bool isSaveErrorLog = true;
-        
+
 
         private static object CheckWhereParam(this object whereParam)
         {
@@ -44,21 +44,21 @@ namespace WX.DB.Dapper
         /// 获取一个对象
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="conStr"></param>
+        /// <param name="con"></param>
         /// <param name="whereParam">查询条件，支持new{id=1,status=1}对象和字段名称=value</param>
         /// <param name="selectField">要返回的字段，null为返回所有字段，返回某个字段则为：new{id=0,title="",status=0}或字段名称+逗号的形式</param>
         /// <returns></returns>
-        public static T GetModel<T>(this DbConnection conStr, object selectField, object whereParam)
+        public static T GetModel<T>(this DbConnection con, object selectField, object whereParam)
         {
             var querySql = GetAntiXssSql(CreateQueryTSql(GetTableName(typeof(T)), selectField, whereParam));
             try
             {
-              
-                    var reuslt = conStr.Query<T>(querySql, whereParam.CheckWhereParam());
-                    if (reuslt != null)
-                        return reuslt.FirstOrDefault();
-                    return default(T);
-                
+
+                var reuslt = con.Query<T>(querySql, whereParam.CheckWhereParam());
+                if (reuslt != null)
+                    return reuslt.FirstOrDefault();
+                return default(T);
+
             }
             catch (Exception ex)
             {
@@ -73,26 +73,26 @@ namespace WX.DB.Dapper
         /// 获取一个对象
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="conStr"></param>
+        /// <param name="con"></param>
         /// <param name="filterDeleted"> </param>
         /// <returns></returns>
-        public static T GetModel<T>(this DbConnection conStr, bool filterDeleted = true)
+        public static T GetModel<T>(this DbConnection con, bool filterDeleted = true)
         {
             var querySql = $"select * from  {GetTableName(typeof(T))}(nolock)   {(filterDeleted ? " where deleted=0" : "")}  ";
             try
             {
-             
-                    var list = conStr.Query<T>(querySql, null);
-                    if (list != null)
-                        return list.FirstOrDefault();
 
-                    return default(T);
-                
+                var list = con.Query<T>(querySql, null);
+                if (list != null)
+                    return list.FirstOrDefault();
+
+                return default(T);
+
 
             }
             catch (Exception ex)
             {
-                AddDbErrorLog(ex, MethodBase.GetCurrentMethod().Name + conStr, querySql);
+                AddDbErrorLog(ex, MethodBase.GetCurrentMethod().Name + con, querySql);
                 return default(T); ;
             }
         }
@@ -102,26 +102,26 @@ namespace WX.DB.Dapper
         /// 获取一个对象
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="conStr"></param>
+        /// <param name="con"></param>
         /// <param name="id"> </param>
         /// <returns></returns>
-        public static T GetModel<T>(this DbConnection conStr, int id, bool filterDeleted = true)
+        public static T GetModel<T>(this DbConnection con, int id, bool filterDeleted = true)
         {
             var querySql = $"select * from  {GetTableName(typeof(T))}(nolock) where id={id} {(filterDeleted ? " and deleted=0" : "")}  ";
             try
             {
-               
-                    var list = conStr.Query<T>(querySql, null);
-                    if (list != null)
-                        return list.FirstOrDefault();
 
-                    return default(T);
-                
+                var list = con.Query<T>(querySql, null);
+                if (list != null)
+                    return list.FirstOrDefault();
+
+                return default(T);
+
 
             }
             catch (Exception ex)
             {
-                AddDbErrorLog(ex, MethodBase.GetCurrentMethod().Name + conStr, querySql);
+                AddDbErrorLog(ex, MethodBase.GetCurrentMethod().Name + con, querySql);
                 return default(T); ;
             }
         }
@@ -135,21 +135,20 @@ namespace WX.DB.Dapper
         /// <param name="sql">sql语句</param>
         /// <param name="param">sql里面用的参数，假设用到@a，则传入new {a='xxx'},传入对象即可</param>
         /// <returns>查询到的对象，可能为空</returns>
-        public static T GetModelBySql<T>(this string conStr, string sql, object param = null)
+        public static T GetModelBySql<T>(this DbConnection con, string sql, object param = null)
         {
             //if (sql.ToLower().Contains("where") && param == null)
             //    throw new Exception("请使用参数查询");
             try
             {
-                using (MySqlConnection con = new MySqlConnection(conStr))
-                {
-                    var reuslt = con.Query<T>(GetAntiXssSql(sql), param.CheckWhereParam());
-                    if (reuslt != null)
-                        return reuslt.FirstOrDefault();
-                    return default(T);
+
+                var reuslt = con.Query<T>(GetAntiXssSql(sql), param.CheckWhereParam());
+                if (reuslt != null)
+                    return reuslt.FirstOrDefault();
+                return default(T);
 
 
-                }
+
             }
             catch (Exception ex)
             {
@@ -159,32 +158,7 @@ namespace WX.DB.Dapper
         }
 
 
-        /// <summary>
-        /// 执行sql并返回单个对象
-        /// </summary>
-        /// <typeparam name="T">model类型</typeparam>
-        /// <param name="con">直接调用DapperConnection类</param>
-        /// <param name="sql">sql语句</param>
-        /// <param name="param">sql里面用的参数，假设用到@a，则传入new {a='xxx'},传入对象即可</param>
-        /// <returns>查询到的对象，可能为空</returns>
-        public static async Task<T> GetModelBySql<T>(this MySqlConnection con, string sql, object param = null)
-        {
-            //if (sql.ToLower().Contains("where") && param == null)
-            //    throw new Exception("请使用参数查询");
-            try
-            {
-                var reuslt = await con.QueryAsync<T>(GetAntiXssSql(sql), param.CheckWhereParam());
-                if (reuslt != null)
-                    return reuslt.FirstOrDefault();
-                return default(T);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("DBEx:" + JsonConvert.SerializeObject(ex));
-                //AddDbErrorLog(ex, MethodBase.GetCurrentMethod().Name, sql, param);
-                return default(T);
-            }
-        }
+
 
 
         /// <summary>
@@ -196,20 +170,19 @@ namespace WX.DB.Dapper
         /// <param name="param">sql里面用的参数，假设用到@a，则传入new {a='xxx'},传入对象即可，这里不是memberinitexpression</param>
         /// <param name="model">自定义对象，格式：new{name="",age=0}</param>
         /// <returns>查询到的对象，可能为空</returns>
-        public static T GetModelBySql<T>(this string conStr, string sql, object param, T model)
+        public static T GetModelBySql<T>(this DbConnection con, string sql, object param, T model)
         {
             //if (sql.ToLower().Contains("where") && param == null)
             //    throw new Exception("请使用参数查询");
             try
             {
-                using (MySqlConnection con = new MySqlConnection(conStr))
-                {
-                    var reuslt = con.Query<T>(GetAntiXssSql(sql), param.CheckWhereParam());
-                    if (reuslt != null)
-                        return reuslt.FirstOrDefault();
-                    return default(T);
 
-                }
+                var reuslt = con.Query<T>(GetAntiXssSql(sql), param.CheckWhereParam());
+                if (reuslt != null)
+                    return reuslt.FirstOrDefault();
+                return default(T);
+
+
             }
             catch (Exception ex)
             {
@@ -229,7 +202,7 @@ namespace WX.DB.Dapper
         /// <param name="primaryKey">不需要插入的字段，主要是针对自增主键</param>
         /// <param name="isFilter">sql语句安全过滤</param>
         /// <returns></returns>
-        public static T AddModel<T>(this string conStr, T model, string primaryKey = "id", bool isFilter = true)
+        public static T AddModel<T>(this DbConnection con, T model, string primaryKey = "id", bool isFilter = true)
         where T : class
         {
             var insertParameterSql = string.Empty;
@@ -238,13 +211,12 @@ namespace WX.DB.Dapper
                 insertParameterSql = GetInsertParamSql(typeof(T), primaryKey, (primaryKey == "" ? false : true));
                 if (isFilter)
                     model = ReturnSecurityObject(model) as T;
-                using (MySqlConnection con = new MySqlConnection(conStr))
-                {
-                    var identify = con.Query<int>(insertParameterSql, model).FirstOrDefault();
-                    if (!string.IsNullOrWhiteSpace(primaryKey))
-                        model = SetIdentify(model, primaryKey, identify);
-                    return model;
-                }
+
+                var identify = con.Query<int>(insertParameterSql, model).FirstOrDefault();
+                if (!string.IsNullOrWhiteSpace(primaryKey))
+                    model = SetIdentify(model, primaryKey, identify);
+                return model;
+
             }
             catch (Exception ex)
             {
@@ -264,7 +236,7 @@ namespace WX.DB.Dapper
         /// <param name="primaryKey">不需要插入的字段，主要是针对自增主键</param>
         /// <param name="isFilter">sql语句安全过滤</param>
         /// <returns></returns>
-        public static int AddModelRowCount<T>(this string conStr, T model, string primaryKey = "id", bool isFilter = true, string asName = "")
+        public static int AddModelRowCount<T>(this DbConnection con, T model, string primaryKey = "id", bool isFilter = true, string asName = "")
         where T : class
         {
             var insertParameterSql = string.Empty;
@@ -273,11 +245,10 @@ namespace WX.DB.Dapper
                 insertParameterSql = GetInsertParamSql(typeof(T), primaryKey, false, asName);
                 if (isFilter)
                     model = ReturnSecurityObject(model) as T;
-                using (MySqlConnection con = new MySqlConnection(conStr))
-                {
-                    var identify = con.Execute(insertParameterSql, model);
-                    return identify;
-                }
+
+                var identify = con.Execute(insertParameterSql, model);
+                return identify;
+
             }
             catch (Exception ex)
             {
@@ -296,30 +267,29 @@ namespace WX.DB.Dapper
         /// <param name="primaryKey">不需要插入的字段，主要是针对自增主键</param>
         /// <param name="isFilter">sql语句安全过滤</param>
         /// <returns></returns>
-        public static int AddModelIdentity<T>(this string conStr, T model, string primaryKey = "id", bool isFilter = true)
+        public static int AddModelIdentity<T>(this DbConnection con, T model, string primaryKey = "id", bool isFilter = true)
         where T : class
         {
             var insertParameterSql = string.Empty;
             try
             {
-                using (MySqlConnection con = new MySqlConnection(conStr))
-                {
-                    insertParameterSql = GetInsertParamSql(typeof(T), primaryKey);
-                    if (isFilter)
-                        model = ReturnSecurityObject(model) as T;
 
-                    var identify = 0;
-                    var reuslt = con.Query<int>(insertParameterSql, model);
-                    if (reuslt != null)
-                        identify = reuslt.FirstOrDefault();
-                    return identify;
-                }
+                insertParameterSql = GetInsertParamSql(typeof(T), primaryKey);
+                if (isFilter)
+                    model = ReturnSecurityObject(model) as T;
+
+                var identify = 0;
+                var reuslt = con.Query<int>(insertParameterSql, model);
+                if (reuslt != null)
+                    identify = reuslt.FirstOrDefault();
+                return identify;
+
 
 
             }
             catch (Exception ex)
             {
-                AddDbErrorLog(ex, MethodBase.GetCurrentMethod().Name + conStr, insertParameterSql, model);
+                AddDbErrorLog(ex, MethodBase.GetCurrentMethod().Name + con, insertParameterSql, model);
                 return 0;
             }
         }
@@ -328,13 +298,13 @@ namespace WX.DB.Dapper
         /// <summary>
         /// 批量插入多个model对象，注：如数据量千条以上，建议使用数据库的自定义表类型来批量插入
         /// </summary>
-        /// <param name="conStr">数据库连接字符串</param>
+        /// <param name="con">数据库连接字符串</param>
         /// <param name="primaryKey">生成sql的对象的对象</param>
         /// <param name="listModel">待插入数据库的对象</param>
         /// <param name="isFilter">是否安全过滤sql语句</param>
         /// <param name="asName">表名</param>
         /// <returns></returns>
-        public static int AddBatchModelRowCount<T>(this string conStr, List<T> listModel, string primaryKey = "id", bool isFilter = true, string asName = "")
+        public static int AddBatchModelRowCount<T>(this DbConnection con, List<T> listModel, string primaryKey = "id", bool isFilter = true, string asName = "")
         where T : class, new()
         {
             var insertParameterSql = string.Empty;
@@ -343,11 +313,10 @@ namespace WX.DB.Dapper
                 insertParameterSql = GetInsertParamSql(typeof(T), primaryKey, false, asName);
                 if (isFilter)
                     listModel = ReturnSecurityObject(listModel) as List<T>;
-                using (MySqlConnection con = new MySqlConnection(conStr))
-                {
-                    var identify = con.Execute(insertParameterSql, listModel);
-                    return identify;
-                }
+
+                var identify = con.Execute(insertParameterSql, listModel);
+                return identify;
+
             }
             catch (Exception ex)
             {
@@ -355,9 +324,9 @@ namespace WX.DB.Dapper
                 return 0;
             }
         }
-      
 
-      
+
+
 
 
         #endregion
@@ -408,9 +377,9 @@ namespace WX.DB.Dapper
         /// <param name="pageindex">当前页</param>
         /// <param name="totalCount">返回总条数</param>
         /// <returns></returns>
-        public static List<T> GetList<T>(this string conStr, object fieldParam, string whereField, object whereParam, object orderBy, int pagesize, int pageindex, out int totalCount)
+        public static List<T> GetList<T>(this DbConnection con, object fieldParam, string whereField, object whereParam, object orderBy, int pagesize, int pageindex, out int totalCount)
         {
-            Config.CheckIsOnlyReadDB(conStr);
+
             var safeSql = "";
             try
             {
@@ -425,12 +394,11 @@ namespace WX.DB.Dapper
                 var order = CreateOrderByTsql(orderBy, true);
 
                 safeSql = GetAntiXssSql(sql.ToString());
-                using (MySqlConnection con = new MySqlConnection(conStr))
-                {
-                    totalCount = con.Query<int>(CreateCountingSql(safeSql), whereParam.CheckWhereParam()).First();
-                    var pagingSql = CreatePagingSql(totalCount, pagesize, pageindex, safeSql, order);
-                    return con.Query<T>(pagingSql, whereParam.CheckWhereParam()).ToList();
-                }
+
+                totalCount = con.Query<int>(CreateCountingSql(safeSql), whereParam.CheckWhereParam()).First();
+                var pagingSql = CreatePagingSql(totalCount, pagesize, pageindex, safeSql, order);
+                return con.Query<T>(pagingSql, whereParam.CheckWhereParam()).ToList();
+
             }
             catch (Exception ex)
             {
@@ -451,17 +419,16 @@ namespace WX.DB.Dapper
         /// <param name="whereParam">查询条件，如：new {name="danny",status=1}</param>
         /// <param name="orderBy">排序字段 ,正序为true，降序为false，如：new {sort_id=false,id=true}</param>
         /// <returns></returns>
-        public static List<T> GetList<T>(this string conStr, object fieldParam, object whereParam = null, object orderBy = null)
+        public static List<T> GetList<T>(this DbConnection con, object fieldParam, object whereParam = null, object orderBy = null)
         {
-            Config.CheckIsOnlyReadDB(conStr);
+
             var safeSql = string.Empty;
             try
             {
                 safeSql = GetAntiXssSql(CreateQueryTSql(GetTableName(typeof(T)), fieldParam, whereParam, orderBy));
-                using (MySqlConnection con = new MySqlConnection(conStr))
-                {
-                    return con.Query<T>(safeSql, whereParam.CheckWhereParam()).ToList();
-                }
+
+                return con.Query<T>(safeSql, whereParam.CheckWhereParam()).ToList();
+
             }
             catch (Exception ex)
             {
@@ -478,16 +445,16 @@ namespace WX.DB.Dapper
         ///获取数据列表
         /// </summary>
         /// <typeparam name="T">获取的列表类型</typeparam>
-        /// <param name="conStr"></param>
+        /// <param name="con"></param>
         /// <param name="con">直接调用DapperConnection类</param>
         /// <param name="sql">sql语句含orderby</param>
         /// <param name="param">参数</param>
         /// <param name="isFilter"></param>
         /// <param name="commandType"></param>
         /// <returns></returns>
-        public static List<T> GetListBySql<T>(this string conStr, string sql, object param = null, bool isFilter = true, CommandType commandType = CommandType.Text)
+        public static List<T> GetListBySql<T>(this DbConnection con, string sql, object param = null, bool isFilter = true, CommandType commandType = CommandType.Text)
         {
-            Config.CheckIsOnlyReadDB(conStr);
+
             try
             {
                 //if (sql.ToLower().Contains("where") && param == null)
@@ -496,10 +463,9 @@ namespace WX.DB.Dapper
                 if (isFilter)
                     safeSql = GetAntiXssSql(sql);
 
-                using (MySqlConnection con = new MySqlConnection(conStr))
-                {
-                    return con.Query<T>(safeSql, param.CheckWhereParam(), commandType: commandType).ToList();
-                }
+
+                return con.Query<T>(safeSql, param.CheckWhereParam(), commandType: commandType).ToList();
+
             }
             catch (Exception ex)
             {
@@ -508,16 +474,16 @@ namespace WX.DB.Dapper
             }
         }
 
-        //public static async System.Collections.Generic.IAsyncEnumerable<T> GetListBySqlAsync<T>(this string conStr, string sql, object param = null, bool isFilter = true, CommandType commandType = CommandType.Text)
+        //public static async System.Collections.Generic.IAsyncEnumerable<T> GetListBySqlAsync<T>(this DbConnection con, string sql, object param = null, bool isFilter = true, CommandType commandType = CommandType.Text)
         //{
-        //    Config.CheckIsOnlyReadDB(conStr);
+        //     
         //    try
         //    {
         //        var safeSql = sql;
         //        if (isFilter)
         //            safeSql = GetAntiXssSql(sql);
 
-        //        using MySqlConnection con = new MySqlConnection(conStr);
+        //        using MySqlConnection con = new MySqlConnection(con);
 
         //        var reader = await con.QueryMultipleAsync(sql, param.CheckWhereParam(), commandType: commandType);
         //        var idFromDb = (await reader.ReadAsync<int?>().ConfigureAwait(false)).SingleOrDefault();
@@ -552,7 +518,7 @@ namespace WX.DB.Dapper
         /// <param name="sql">sql语句含orderby</param>
         /// <param name="param">参数</param>
         /// <returns></returns>
-        public static List<T> GetListByStoredProcedure<T>(this MySqlConnection con, string sql, object param = null)
+        public static List<T> GetListByStoredProcedure<T>(this DbConnection con, string sql, object param = null)
         {
 
             try
@@ -571,7 +537,7 @@ namespace WX.DB.Dapper
         /// Dapper获取分页列表
         /// </summary>
         /// <typeparam name="T">获取的列表类型</typeparam>
-        /// <param name="conStr"></param>
+        /// <param name="con"></param>
         /// <param name="sql">sql语句（不包含orderby以外的部分）</param>
         /// <param name="orderby">orderby的字段，如果多个可用,分隔，逆序可用desc</param>
         /// <param name="pagesize">页大小</param>
@@ -581,27 +547,26 @@ namespace WX.DB.Dapper
         /// <param name="sqlCount"></param>
         /// <param name="commandType"></param>
         /// <returns></returns>
-        public static List<T> GetListBySql<T>(this string conStr, string sql, string orderby, int pagesize, int pageindex, out int totalCount, object param = null, string sqlCount = null,
+        public static List<T> GetListBySql<T>(this DbConnection con, string sql, string orderby, int pagesize, int pageindex, out int totalCount, object param = null, string sqlCount = null,
             CommandType commandType = CommandType.Text)
         {
-            Config.CheckIsOnlyReadDB(conStr);
+
             try
             {
                 //if (sql.ToLower().Contains("where") && param == null)
                 //    throw new Exception("请使用参数查询");
                 var safeSql = GetAntiXssSql(sql);
-                using (MySqlConnection con = new MySqlConnection(conStr))
+
+                if (sqlCount == null)
                 {
-                    if (sqlCount == null)
-                    {
-                        var tmpStr = CreateCountingSql(safeSql);
-                        totalCount = con.Query<int>(tmpStr, param.CheckWhereParam()).First();
-                    }
-                    else
-                        totalCount = con.Query<int>(sqlCount).First();
-                    var pagingSql = CreatePagingSql(totalCount, pagesize, pageindex, safeSql, orderby);
-                    return con.Query<T>(pagingSql, param.CheckWhereParam(), commandType: commandType).ToList();
+                    var tmpStr = CreateCountingSql(safeSql);
+                    totalCount = con.Query<int>(tmpStr, param.CheckWhereParam()).First();
                 }
+                else
+                    totalCount = con.Query<int>(sqlCount).First();
+                var pagingSql = CreatePagingSql(totalCount, pagesize, pageindex, safeSql, orderby);
+                return con.Query<T>(pagingSql, param.CheckWhereParam(), commandType: commandType).ToList();
+
             }
             catch (Exception ex)
             {
@@ -617,25 +582,24 @@ namespace WX.DB.Dapper
         /// 获取匿名对象列表 
         /// </summary>
         /// <typeparam name="T">匿名对象类型</typeparam>
-        /// <param name="conStr"></param>
+        /// <param name="con"></param>
         /// <param name="con"></param>
         /// <param name="sql"></param>
         /// <param name="param">查询条件的参数值对象</param>
         /// <param name="model">匿名对象，对象的字段顺序及类型要跟sql查询的字段一致</param>
         /// <param name="commandType"></param>
         /// <returns></returns>
-        public static List<T> GetDynamicList<T>(this string conStr, string sql, object param, T model, CommandType commandType = CommandType.Text)
+        public static List<T> GetDynamicList<T>(this DbConnection con, string sql, object param, T model, CommandType commandType = CommandType.Text)
         {
-            Config.CheckIsOnlyReadDB(conStr);
+
             try
             {
                 //if (sql.ToLower().Contains("where") && param == null)
                 //    throw new Exception("请使用参数查询");
                 var safeSql = GetAntiXssSql(sql);
-                using (MySqlConnection con = new MySqlConnection(conStr))
-                {
-                    return con.Query<T>(safeSql, param.CheckWhereParam(), commandType: commandType).ToList();
-                }
+
+                return con.Query<T>(safeSql, param.CheckWhereParam(), commandType: commandType).ToList();
+
             }
             catch (Exception ex)
             {
@@ -644,15 +608,14 @@ namespace WX.DB.Dapper
             }
         }
 
-        public static IEnumerable<T> QueryList<T>(this string conStr, string sql, object param = null, CommandType commandType = CommandType.Text)
+        public static IEnumerable<T> QueryList<T>(this DbConnection con, string sql, object param = null, CommandType commandType = CommandType.Text)
         {
             try
             {
                 var safeSql = GetAntiXssSql(sql);
-                using (MySqlConnection con = new MySqlConnection(conStr))
-                {
-                    return con.Query<T>(safeSql, param.CheckWhereParam(), commandType: commandType);
-                }
+
+                return con.Query<T>(safeSql, param.CheckWhereParam(), commandType: commandType);
+
             }
             catch (Exception ex)
             {
@@ -661,12 +624,12 @@ namespace WX.DB.Dapper
             }
         }
 
-        public static async Task<IEnumerable<T>> QueryListAsync<T>(this string conStr, string sql, object param = null, CommandType commandType = CommandType.Text)
+        public static async Task<IEnumerable<T>> QueryListAsync<T>(this DbConnection con, string sql, object param = null, CommandType commandType = CommandType.Text)
         {
             try
             {
                 var safeSql = GetAntiXssSql(sql);
-                using MySqlConnection con = new MySqlConnection(conStr);
+
 
                 return await con.QueryAsync<T>(safeSql, param.CheckWhereParam(), commandType: commandType);
 
@@ -678,12 +641,12 @@ namespace WX.DB.Dapper
             }
         }
 
-        //public static async IAsyncEnumerable<T> QueryAsyncEnumerable<T>(this string conStr, string sql, object param = null, CommandType commandType = CommandType.Text)
+        //public static async IAsyncEnumerable<T> QueryAsyncEnumerable<T>(this DbConnection con, string sql, object param = null, CommandType commandType = CommandType.Text)
         //{
         //    try
         //    {
         //        var safeSql = GetAntiXssSql(sql);
-        //        using MySqlConnection con = new MySqlConnection(conStr);
+        //        using MySqlConnection con = new MySqlConnection(con);
 
         //        return (await con.QueryAsync<T>(safeSql, param.CheckWhereParam(), commandType: commandType)).ToAsyncEnumerable();
 
@@ -699,7 +662,7 @@ namespace WX.DB.Dapper
         ///获取匿名对象分页列表
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="conStr"></param>
+        /// <param name="con"></param>
         /// <param name="con"></param>
         /// <param name="sql"></param>
         /// <param name="orderby">排序字段，不包含order by</param>
@@ -711,7 +674,7 @@ namespace WX.DB.Dapper
         /// <param name="commandType"></param>
         /// <returns></returns>
         public static List<T> GetDynamicList<T>(
-            this string conStr,
+            this DbConnection con,
             string sql,
             string orderby,
             int pagesize,
@@ -721,18 +684,17 @@ namespace WX.DB.Dapper
             object param = null,
             CommandType commandType = CommandType.Text)
         {
-            Config.CheckIsOnlyReadDB(conStr);
+
             try
             {
                 //if (sql.ToLower().Contains("where") && param == null)
                 //    throw new Exception("请使用参数查询");
                 var safeSql = GetAntiXssSql(sql);
-                using (MySqlConnection con = new MySqlConnection(conStr))
-                {
-                    totalCount = con.Query<int>(CreateCountingSql(safeSql), param.CheckWhereParam()).First();
-                    var pagingSql = CreatePagingSql(totalCount, pagesize, pageindex, safeSql, orderby);
-                    return con.Query<T>(pagingSql, param.CheckWhereParam(), commandType: commandType).ToList();
-                }
+
+                totalCount = con.Query<int>(CreateCountingSql(safeSql), param.CheckWhereParam()).First();
+                var pagingSql = CreatePagingSql(totalCount, pagesize, pageindex, safeSql, orderby);
+                return con.Query<T>(pagingSql, param.CheckWhereParam(), commandType: commandType).ToList();
+
             }
             catch (Exception ex)
             {
@@ -753,7 +715,7 @@ namespace WX.DB.Dapper
         /// </summary>
         /// <param name="param">sql里面用的参数，假设用到@a，则传入new {a='xxx'},传入对象即可</param>
         /// <returns></returns>
-        public static int GetCount<T>(this string conStr, object whereParam) where T : class, new()
+        public static int GetCount<T>(this DbConnection con, object whereParam) where T : class, new()
         {
             StringBuilder sql = new StringBuilder();
             try
@@ -778,11 +740,11 @@ namespace WX.DB.Dapper
                         }
                     }
                 }
-                using (MySqlConnection con = new MySqlConnection(conStr))
-                {
-                    int count = con.Query<int>(sql.ToString(), whereParam.CheckWhereParam()).FirstOrDefault();
-                    return count;
-                }
+
+
+                int count = con.Query<int>(sql.ToString(), whereParam.CheckWhereParam()).FirstOrDefault();
+                return count;
+
             }
             catch (Exception ex)
             {
@@ -797,15 +759,14 @@ namespace WX.DB.Dapper
         /// </summary>
         /// <param name="param">sql里面用的参数，假设用到@a，则传入new {a='xxx'},传入对象即可</param>
         /// <returns></returns>
-        public static int GetCount(this string conStr, string sql, object whereParam = null)
+        public static int GetCount(this DbConnection con, string sql, object whereParam = null)
         {
             try
             {
-                using (MySqlConnection con = new MySqlConnection(conStr))
-                {
-                    int count = con.Query<int>(sql.ToString(), whereParam).FirstOrDefault();
-                    return count;
-                }
+
+                int count = con.Query<int>(sql.ToString(), whereParam).FirstOrDefault();
+                return count;
+
             }
             catch (Exception ex)
             {
@@ -818,22 +779,14 @@ namespace WX.DB.Dapper
         /// <summary>
         /// 获取单个值数据,需要判断返回的值是否为null
         /// </summary>
-        /// <param name="conStr"></param>
+        /// <param name="con"></param>
         /// <param name="sql">sql语句</param>
         /// <param name="param">sql里面用的参数，假设用到@a，则传入new {a='xxx'},传入对象即可</param>
         /// <param name="commandType"></param>
         /// <returns></returns>
-        public static object GetScalarValue(this string conStr, string sql, object param = null, CommandType commandType = CommandType.Text)
+        public static object GetScalarValue(this DbConnection con, string sql, object param = null, CommandType commandType = CommandType.Text)
         {
-            if (string.IsNullOrEmpty(conStr))
-            {
-                throw new ArgumentException("message", nameof(conStr));
-            }
 
-            if (string.IsNullOrEmpty(sql))
-            {
-                throw new ArgumentException("message", nameof(sql));
-            }
 
 
 
@@ -841,10 +794,9 @@ namespace WX.DB.Dapper
             {
                 //if (sql.ToLower().Contains("where") && param == null)
                 //    throw new Exception("请使用参数查询");
-                using (MySqlConnection con = new MySqlConnection(conStr))
-                {
-                    return con.ExecuteScalar(GetAntiXssSql(sql), param.CheckWhereParam(), commandType: commandType);
-                }
+
+                return con.ExecuteScalar(GetAntiXssSql(sql), param.CheckWhereParam(), commandType: commandType);
+
             }
             catch (Exception ex)
             {
@@ -859,24 +811,23 @@ namespace WX.DB.Dapper
         /// <summary>
         /// update一个实体,实体是先查询出来的
         /// </summary>
-        /// <param name="conStr"></param>
+        /// <param name="con"></param>
         /// <param name="con">直接调用DapperConnection类</param>
         /// <param name="model">需要更新的Entity对象</param>
         /// <param name="primaryKey">不需要更新的字段，主要是针对自增主键</param>
         /// <param name="isFilter"></param>
         /// <param name="asName"></param>
         /// <returns></returns>
-        public static bool UpdateModel<T>(this string conStr, T model, string primaryKey = "id", bool isFilter = true, string asName = "") where T : class
+        public static bool UpdateModel<T>(this DbConnection con, T model, string primaryKey = "id", bool isFilter = true, string asName = "") where T : class
         {
             var updateParameterSql = GetUpdateParamSql(typeof(T), primaryKey, asName);
             try
             {
                 if (isFilter)
                     model = ReturnSecurityObject(model) as T;
-                using (MySqlConnection con = new MySqlConnection(conStr))
-                {
-                    return con.Execute(updateParameterSql, model) > 0;
-                }
+
+                return con.Execute(updateParameterSql, model) > 0;
+
             }
             catch (Exception ex)
             {
@@ -889,12 +840,12 @@ namespace WX.DB.Dapper
         /// 批量更新多个model对象，注：如数据量千条以上，建议使用数据库的自定义表类型来批量更新
         /// </summary>
         /// <typeparam name="T">更新对象的类型</typeparam>
-        /// <param name="conStr">链接字符串</param>
+        /// <param name="con">链接字符串</param>
         /// <param name="listModel">更新的list</param>
         /// <param name="primaryKey">主键id</param>
         /// <param name="isFilter"></param>
         /// <returns></returns>
-        public static int UpdateBatchModelRowCount<T>(this string conStr, List<T> listModel, string primaryKey = "id", bool isFilter = true, string asName = "")
+        public static int UpdateBatchModelRowCount<T>(this DbConnection con, List<T> listModel, string primaryKey = "id", bool isFilter = true, string asName = "")
         where T : class, new()
         {
             var sql = string.Empty;
@@ -903,11 +854,10 @@ namespace WX.DB.Dapper
                 sql = GetUpdateParamSql(typeof(T), primaryKey, asName);
                 if (isFilter)
                     listModel = ReturnSecurityObject(listModel) as List<T>;
-                using (MySqlConnection con = new MySqlConnection(conStr))
-                {
-                    var identify = con.Execute(sql, listModel);
-                    return identify;
-                }
+
+                var identify = con.Execute(sql, listModel);
+                return identify;
+
             }
             catch (Exception ex)
             {
@@ -922,12 +872,12 @@ namespace WX.DB.Dapper
         /// 更新对象
         /// </summary>
         /// <typeparam name="T">对象</typeparam>
-        /// <param name="conStr"></param>
+        /// <param name="con"></param>
         /// <param name="updateParam">set字段</param>
         /// <param name="whereParam">where字段</param>
         /// <param name="isFilter"></param>
         /// <returns></returns>
-        public static bool UpdateModel<T>(this string conStr, object updateParam, object whereParam, bool isFilter = true) where T : class, new()
+        public static bool UpdateModel<T>(this DbConnection con, object updateParam, object whereParam, bool isFilter = true) where T : class, new()
         {
             T model = new T();
             StringBuilder sql = new StringBuilder();
@@ -1011,11 +961,10 @@ namespace WX.DB.Dapper
             #endregion
             try
             {
-                using (MySqlConnection con = new MySqlConnection(conStr))
-                {
-                    int num = con.Execute(sql.ToString(), model);
-                    return num > 0;
-                }
+
+                int num = con.Execute(sql.ToString(), model);
+                return num > 0;
+
             }
             catch (Exception ex)
             {
@@ -1038,18 +987,17 @@ namespace WX.DB.Dapper
         /// <param name="con"></param>
         /// <param name="whereParam"> 参数， 假设用到@a，则传入new {a='xxx'},传入对象即可</param>
         /// <returns></returns>
-        public static bool DeleteModel<T>(this string conStr, object whereParam)
+        public static bool DeleteModel<T>(this DbConnection con, object whereParam)
         {
             //if (whereParam == null)
             //    throw new Exception("参数不能为null");
             var sql = $"delete {GetTableName(typeof(T))}  {CreateWhereTsql(whereParam)} ";
             try
             {
-                using (MySqlConnection con = new MySqlConnection(conStr))
-                {
-                    int num = con.Execute(sql, whereParam);
-                    return num > 0;
-                }
+
+                int num = con.Execute(sql, whereParam);
+                return num > 0;
+
             }
             catch (Exception ex)
             {
@@ -1062,20 +1010,19 @@ namespace WX.DB.Dapper
         /// 删除对象
         /// </summary>
         /// <typeparam name="T">要删除的对象</typeparam>
-        /// <param name="conStr"></param>
+        /// <param name="con"></param>
         /// <param name="id"> 要删除的id</param>
         /// <returns></returns>
-        public static bool DeleteModel<T>(this string conStr, int id)
+        public static bool DeleteModel<T>(this DbConnection con, int id)
         {
 
             var sql = $"delete {GetTableName(typeof(T))}  where id={id} ";
             try
             {
-                using (MySqlConnection con = new MySqlConnection(conStr))
-                {
-                    int num = con.Execute(sql, null);
-                    return num > 0;
-                }
+
+                int num = con.Execute(sql, null);
+                return num > 0;
+
             }
             catch (Exception ex)
             {
@@ -1090,7 +1037,7 @@ namespace WX.DB.Dapper
         /// <summary>
         /// 执行一条sql语句(增删改)
         /// </summary>
-        /// <param name="conStr"></param>
+        /// <param name="con"></param>
         /// <param name="con">直接调用DapperConnection类</param>
         /// <param name="sql">TSQL语句</param>
         /// <param name="param">sql里面用的参数，假设用到@a，则传入new {a='xxx'},传入对象即可</param>
@@ -1098,18 +1045,18 @@ namespace WX.DB.Dapper
         /// <param name="commandType"></param>
         /// <param name=""></param>
         /// <returns></returns>
-        public static bool ExecuteSql(this string conStr, string sql, object param = null, bool saveLog = true, CommandType commandType = CommandType.Text)
+        public static bool ExecuteSql(this DbConnection con, string sql, object param = null, bool saveLog = true, CommandType commandType = CommandType.Text)
         {
             try
             {
                 //if (sql.ToLower().Contains("where") && param == null)
                 //    throw new Exception("请使用参数查询");
                 string filterSql = GetAntiXssSql(sql);
-                using (MySqlConnection con = new MySqlConnection(conStr))
-                {
-                    int num = con.Execute(filterSql, param.CheckWhereParam(), commandType: commandType);
-                    return num > 0;
-                }
+
+
+                int num = con.Execute(filterSql, param.CheckWhereParam(), commandType: commandType);
+                return num > 0;
+
             }
             catch (Exception ex)
             {
@@ -1120,18 +1067,17 @@ namespace WX.DB.Dapper
         }
 
 
-        public static async ValueTask<bool> ExecuteSqlAsync(this string conStr, string sql, object param = null, bool saveLog = true, CommandType commandType = CommandType.Text)
+        public static async ValueTask<bool> ExecuteSqlAsync(this DbConnection con, string sql, object param = null, bool saveLog = true, CommandType commandType = CommandType.Text)
         {
             try
             {
                 //if (sql.ToLower().Contains("where") && param == null)
                 //    throw new Exception("请使用参数查询");
                 string filterSql = GetAntiXssSql(sql);
-                using (MySqlConnection con = new MySqlConnection(conStr))
-                {
-                    int num = await con.ExecuteAsync(filterSql, param.CheckWhereParam(), commandType: commandType);
-                    return num > 0;
-                }
+
+                int num = await con.ExecuteAsync(filterSql, param.CheckWhereParam(), commandType: commandType);
+                return num > 0;
+
             }
             catch (Exception ex)
             {
@@ -1732,7 +1678,7 @@ namespace WX.DB.Dapper
         /// 异步获取分页结果
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="conStr"></param>
+        /// <param name="con"></param>
         /// <param name="sql"></param>
         /// <param name="orderby"></param>
         /// <param name="pagesize"></param>
@@ -1741,13 +1687,13 @@ namespace WX.DB.Dapper
         /// <param name="countSql"></param>
         /// <param name="commandType"></param>
         /// <returns></returns>
-        public static async Task<Common.ApiResults.PagedResult<T>> GetPagedResultAsync<T>(this string conStr, string sql, string orderby, int pagesize, int pageindex, object param = null, string countSql = null, CommandType commandType = CommandType.Text)
+        public static async Task<Common.ApiResults.PagedResult<T>> GetPagedResultAsync<T>(this DbConnection con, string sql, string orderby, int pagesize, int pageindex, object param = null, string countSql = null, CommandType commandType = CommandType.Text)
         {
-            Config.CheckIsOnlyReadDB(conStr);
+
             try
             {
                 var safeSql = GetAntiXssSql(sql);
-                using MySqlConnection con = new MySqlConnection(conStr);
+
                 countSql ??= CreateCountingSql(safeSql);
                 var pagingSql = CreatePagingSql(pagesize, pageindex, safeSql, orderby);
                 var reader = await con.QueryMultipleAsync($"{countSql};{pagingSql}", param.CheckWhereParam());

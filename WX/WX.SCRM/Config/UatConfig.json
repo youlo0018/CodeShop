@@ -6,7 +6,8 @@
     }
   },
   "Base": {
-    "HiddenApi": false
+    "HiddenApi": false,
+    "SyyParam": "SCRM"
   },
   "Cache": {
     "Module": "redis",

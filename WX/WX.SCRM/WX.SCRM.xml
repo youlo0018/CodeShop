@@ -15,6 +15,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:WX.SCRM.Controllers.TestController.Testmysql">
+            <summary>
+            测试mysql
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:WX.SCRM.Controllers.TestController.MovieModel">
             <summary>
             这是电影实体类

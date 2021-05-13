@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using MySql.Data.MySqlClient;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using WX.Comcon.Caching.Redis;
 using WX.DB.Dapper;
@@ -15,6 +17,11 @@ namespace WX.SCRM.Controllers
     /// </summary>
     public class TestController : BaseController
     {
+        public IMemoryCache _memoryCache;
+        public TestController(IMemoryCache memoryCache)
+        {
+            _memoryCache = memoryCache;
+        }
         /// <summary>
         /// 测试swagger
         /// </summary>
@@ -37,10 +44,15 @@ namespace WX.SCRM.Controllers
             await RedisCache.Instance.SetAsync("aaa", "bbb", new Comcon.Caching.Abstractions.DistributedCacheEntryOptions { SlidingExpiration = TimeSpan.FromSeconds(20) });
             return  RedisCache.Instance.Get("aaa").ToString();
         }
+        /// <summary>
+        /// 测试mysql
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<string> Testmysql()
         {
            var aa= DB.Config.DominSys_Param.GetModel<Sys_Param>("*", $"id={1}");
+            var bb = _memoryCache.Get(DataCache.Config.Dominnmae + ".CacheParam") as List<Sys_Param>;
             return aa.CreateUser;
         }
         /// <summary>

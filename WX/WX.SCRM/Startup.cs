@@ -12,6 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WX.Comcon.Caching;
 using static WX.AdvancedTools.config;
+using WX.SCRM.Uilt;
 
 namespace WX.SCRM
 {
@@ -54,6 +55,7 @@ namespace WX.SCRM
             #region 注册缓存和实体表单验证
             services.AddPropertyAttributesAndMemoryCache();
             #endregion
+            services.AddDominServices();
             services.AddControllers();
         }
 
