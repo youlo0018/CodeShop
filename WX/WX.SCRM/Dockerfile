@@ -16,10 +16,10 @@ COPY ["Wx.DB/WX.DB.csproj", "Wx.DB/"]
 RUN dotnet restore "WX.SCRM/WX.SCRM.csproj"
 COPY . .
 WORKDIR "/src/WX.SCRM"
-RUN dotnet build "WX.SCRM.csproj" -c Release -o /app/build
+RUN dotnet build "WX.SCRM.csproj"  -o /home/build/WX.SCRM
 
 FROM build AS publish
-RUN dotnet publish "WX.SCRM.csproj" -c Release -o /home/publish/WX.SCRM
+RUN dotnet publish "WX.SCRM.csproj"  -o /home/publish/WX.SCRM
 
 FROM base AS final
 WORKDIR /app
