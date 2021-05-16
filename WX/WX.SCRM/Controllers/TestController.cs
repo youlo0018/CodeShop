@@ -55,7 +55,21 @@ namespace WX.SCRM.Controllers
             var bb = _memoryCache.Get(DataCache.Config.Dominnmae + ".CacheParam") as List<Sys_Param>;
             return aa.CreateUser;
         }
-     
+        /// <summary>
+        /// 远程触发jiekins
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<bool> TestJenkins(jenkins jenkins)
+        {
+            if (jenkins.repository.name!="wx_scrm")
+            {
+                return false;
+            }
+            
+            return true;
+        }
+
         /// <summary>
         /// 这是电影实体类
         /// </summary>
@@ -74,7 +88,70 @@ namespace WX.SCRM.Controllers
             /// </summary>
             public string Type { get; set; }
         }
+      
+        public class Push_data
+        {
+            /// <summary>
+            /// 
+            /// </summary>
+            public string digest { get; set; }
+            /// <summary>
+            /// 
+            /// </summary>
+            public string pushed_at { get; set; }
+            /// <summary>
+            /// 
+            /// </summary>
+            public string tag { get; set; }
+        }
 
-     
+        public class Repository
+        {
+            /// <summary>
+            /// 
+            /// </summary>
+            public string date_created { get; set; }
+            /// <summary>
+            /// 
+            /// </summary>
+            public string name { get; set; }
+            /// <summary>
+            /// 
+            /// </summary>
+            public string @namespace { get; set; }
+            /// <summary>
+            /// 
+            /// </summary>
+            public string region { get; set; }
+            /// <summary>
+            /// 
+            /// </summary>
+            public string repo_authentication_type { get; set; }
+            /// <summary>
+            /// 
+            /// </summary>
+            public string repo_full_name { get; set; }
+            /// <summary>
+            /// 
+            /// </summary>
+            public string repo_origin_type { get; set; }
+            /// <summary>
+            /// 
+            /// </summary>
+            public string repo_type { get; set; }
+        }
+
+        public class jenkins
+        {
+            /// <summary>
+            /// 
+            /// </summary>
+            public Push_data push_data { get; set; }
+            /// <summary>
+            /// 
+            /// </summary>
+            public Repository repository { get; set; }
+        }
+
     }
 }
