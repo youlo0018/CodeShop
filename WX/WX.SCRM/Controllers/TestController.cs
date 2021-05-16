@@ -55,13 +55,7 @@ namespace WX.SCRM.Controllers
             var bb = _memoryCache.Get(DataCache.Config.Dominnmae + ".CacheParam") as List<Sys_Param>;
             return aa.CreateUser;
         }
-        [HttpGet]
-        public async Task<string> Testmysql1()
-        {
-            var aa = DB.Config.DominSys_Param.GetModel<Sys_Param>("*", $"id={1}");
-            var bb = _memoryCache.Get(DataCache.Config.Dominnmae + ".CacheParam") as List<Sys_Param>;
-            return aa.CreateUser;
-        }
+     
         /// <summary>
         /// 这是电影实体类
         /// </summary>
