@@ -19,7 +19,7 @@ WORKDIR "/src/WX.SCRM"
 RUN dotnet build "WX.SCRM.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "WX.SCRM.csproj" -c Release -o /app/publish
+RUN dotnet publish "WX.SCRM.csproj" -c Release -o /home/publish/WX.SCRM
 
 FROM base AS final
 WORKDIR /app
