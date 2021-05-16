@@ -75,6 +75,6 @@ namespace WX.SCRM.Controllers
             public string Type { get; set; }
         }
 
-      
+     
     }
 }
