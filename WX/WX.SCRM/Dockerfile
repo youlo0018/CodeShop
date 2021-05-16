@@ -23,5 +23,5 @@ RUN dotnet publish "WX.SCRM.csproj"  -o /home/publish/WX.SCRM
 
 FROM base AS final
 WORKDIR /app
-COPY --from=publish /app/publish .
+COPY --from=publish /home/publish/WX.SCRM .
 ENTRYPOINT ["dotnet", "WX.SCRM.dll"]
