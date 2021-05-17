@@ -55,8 +55,9 @@ namespace WX.SCRM
             #region 注册缓存和实体表单验证
             services.AddPropertyAttributesAndMemoryCache();
             #endregion
-            services.AddDominServices();
+          
             services.AddControllers();
+            services.AddDominServices();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

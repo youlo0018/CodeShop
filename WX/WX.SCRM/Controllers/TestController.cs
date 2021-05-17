@@ -4,6 +4,7 @@ using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using WX.Comcon.Caching;
 using WX.Comcon.Caching.Redis;
 using WX.DB.Dapper;
 using WX.DB.Entity;
@@ -17,10 +18,12 @@ namespace WX.SCRM.Controllers
     /// </summary>
     public class TestController : BaseController
     {
-        public IMemoryCache _memoryCache;
-        public TestController(IMemoryCache memoryCache)
+       
+        public ConfigureCache _ConfigureCache;
+        public TestController(ConfigureCache ConfigureCache)
         {
-            _memoryCache = memoryCache;
+            _ConfigureCache = ConfigureCache;
+          
         }
         /// <summary>
         /// 测试swagger
@@ -42,7 +45,7 @@ namespace WX.SCRM.Controllers
         public async Task<string> TestPostRedis(MovieModel movie)
         {
             await RedisCache.Instance.SetAsync("aaa", "bbb", new Comcon.Caching.Abstractions.DistributedCacheEntryOptions { SlidingExpiration = TimeSpan.FromSeconds(20) });
-            return  RedisCache.Instance.Get("aaa").ToString();
+            return RedisCache.Instance.Get("aaa").ToString();
         }
         /// <summary>
         /// 测试mysql
@@ -51,8 +54,9 @@ namespace WX.SCRM.Controllers
         [HttpGet]
         public async Task<string> Testmysql()
         {
-           var aa= DB.Config.DominSys_Param.GetModel<Sys_Param>("*", $"id={1}");
-            var bb = _memoryCache.Get(DataCache.Config.Dominnmae + ".CacheParam") as List<Sys_Param>;
+            var aa = DB.Config.DominSys_Param.GetModel<Sys_Param>("*", $"id={1}");
+
+            var dd = _ConfigureCache.getcache();
             return aa.CreateUser;
         }
         /// <summary>
@@ -74,7 +78,7 @@ namespace WX.SCRM.Controllers
             public string Type { get; set; }
         }
 
-      
-    
+
+
     }
 }
