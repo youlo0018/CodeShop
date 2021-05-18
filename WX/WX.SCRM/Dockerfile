@@ -7,13 +7,7 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:3.1 AS build
 WORKDIR /src
-COPY ["/CodeShop/WX/WX.SCRM/WX.SCRM.csproj", "WX.SCRM/"]
-#COPY ["WX.AdvancedTools/WX.AdvancedTools.csproj", "WX.AdvancedTools/"]
-#COPY ["WX.DataCache/WX.DataCache.csproj", "WX.DataCache/"]
-#COPY ["Common/WX.Common.csproj", "Common/"]
-#COPY ["WX.Comcon.Caching/WX.Comcon.Caching.csproj", "WX.Comcon.Caching/"]
-#COPY ["Wx.DB/WX.DB.csproj", "Wx.DB/"]
-RUN dotnet restore "WX.SCRM/WX.SCRM.csproj"
+
 COPY . .
 WORKDIR "/src/WX.SCRM"
 RUN dotnet build "WX.SCRM.csproj"  -o /home/build/WX.SCRM
