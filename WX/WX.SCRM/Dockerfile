@@ -9,7 +9,7 @@ FROM mcr.microsoft.com/dotnet/sdk:3.1 AS build
 WORKDIR /src
 
 COPY . .
-WORKDIR "/src/WX.SCRM"
+WORKDIR "/src"
 run ls
 RUN dotnet build "WX.SCRM.csproj"  -o /home/build/WX.SCRM
 
