@@ -1,20 +1,13 @@
 #See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
-FROM mcr.microsoft.com/dotnet/aspnet:3.1 AS base
 
-RUN docker pull mcr.microsoft.com/dotnet/sdk:3.1 as sdk:3.1
-RUN docker pull mcr.microsoft.com/dotnet/aspnet:3.1 as aspnet:3.1
-RUN docker tag aspnet:3.1 registry.cn-beijing.aliyuncs.com/youlo_wx/wx_scrm:aspnet3.1
-RUN docker tag sdk:3.1 registry.cn-beijing.aliyuncs.com/youlo_wx/wx_scrm:sdk3.1
-RUN docker push registry.cn-beijing.aliyuncs.com/youlo_wx/wx_scrm:aspnet3.1
-RUN docker push registry.cn-beijing.aliyuncs.com/youlo_wx/wx_scrm:sdk3.1
-FROM mcr.microsoft.com/dotnet/aspnet:3.1 AS base
+FROM registry-vpc.cn-shanghai.aliyuncs.com/youlo_wx/wx_scrm:aspnet AS base
 WORKDIR /app
 run ls
 EXPOSE 80
 EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/sdk:3.1 AS build
+FROM registry-vpc.cn-shanghai.aliyuncs.com/youlo_wx/wx_scrm:sdk AS build
 WORKDIR /src
 run ls
 ADD ["WX.SCRM/WX.SCRM.csproj", "WX.SCRM/"]
