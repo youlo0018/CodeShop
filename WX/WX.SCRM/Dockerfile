@@ -11,7 +11,7 @@ WORKDIR /src
 COPY . .
 WORKDIR "/src/WX.SCRM"
 run ls
-RUN dotnet build "/WX/WX.SCRM.csproj"  -o /home/build/WX.SCRM
+RUN dotnet build "WX.SCRM.csproj"  -o /home/build/WX.SCRM
 
 FROM build AS publish
 RUN dotnet publish "WX.SCRM.csproj"  -o /home/publish/WX.SCRM
