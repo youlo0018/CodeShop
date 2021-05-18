@@ -54,10 +54,7 @@ namespace WX.SCRM.Controllers
         [HttpGet]
         public async Task<string> Testmysql()
         {
-            var aa = DB.Config.DominSys_Param.GetModel<Sys_Param>("*", $"id={1}");
-
-            var dd = _ConfigureCache.getcache();
-            return aa.CreateUser;
+            return "aa";
         }
         /// <summary>
         /// 远程触发jiekins
