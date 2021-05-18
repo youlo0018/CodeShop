@@ -16,6 +16,7 @@ COPY ["WX.DataCache/WX.DataCache.csproj", "WX.DataCache/"]
 COPY ["Common/WX.Common.csproj", "Common/"]
 COPY ["WX.Comcon.Caching/WX.Comcon.Caching.csproj", "WX.Comcon.Caching/"]
 COPY ["Wx.DB/WX.DB.csproj", "Wx.DB/"]
+RUN dotnet --version
 RUN dotnet restore "WX.SCRM/WX.SCRM.csproj"
 run ls
 COPY . .
