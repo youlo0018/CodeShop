@@ -1,13 +1,13 @@
 #See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
 
-FROM registry-vpc.cn-shanghai.aliyuncs.com/youlo_wx/wx_scrm:aspnet AS base
+FROM registry.cn-shanghai.aliyuncs.com/youlo_wx/wx_scrm:aspnet AS base
 WORKDIR /app
 run ls
 EXPOSE 80
 EXPOSE 443
 
-FROM registry-vpc.cn-shanghai.aliyuncs.com/youlo_wx/wx_scrm:sdk AS build
+FROM registry.cn-shanghai.aliyuncs.com/youlo_wx/wx_scrm:sdk AS build
 WORKDIR /src
 run ls
 ADD ["WX.SCRM/WX.SCRM.csproj", "WX.SCRM/"]
