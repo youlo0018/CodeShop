@@ -1,13 +1,13 @@
 #See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
 
-FROM registry.cn-shanghai.aliyuncs.com/youlo_wx/wx_scrm:aspnet AS base
+FROM mcr.microsoft.com/dotnet/aspnet:3.1 AS base
 WORKDIR /app
 run ls
 EXPOSE 80
 EXPOSE 443
 
-FROM registry.cn-shanghai.aliyuncs.com/youlo_wx/wx_scrm:sdk AS build
+FROM mcr.microsoft.com/dotnet/sdk:3.1 AS build
 WORKDIR /src
 run ls
 ADD ["WX.SCRM/WX.SCRM.csproj", "WX.SCRM/"]
@@ -16,7 +16,6 @@ COPY ["WX.DataCache/WX.DataCache.csproj", "WX.DataCache/"]
 COPY ["Common/WX.Common.csproj", "Common/"]
 COPY ["WX.Comcon.Caching/WX.Comcon.Caching.csproj", "WX.Comcon.Caching/"]
 COPY ["Wx.DB/WX.DB.csproj", "Wx.DB/"]
-RUN dotnet --version
 RUN dotnet restore "WX.SCRM/WX.SCRM.csproj"
 run ls
 COPY . .
