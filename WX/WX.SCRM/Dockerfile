@@ -2,11 +2,12 @@
 
 FROM mcr.microsoft.com/dotnet/aspnet:3.1 AS base
 WORKDIR /app
+run ls
 EXPOSE 80
 EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:3.1 AS build
-WORKDIR /src
+WORKDIR ./src
 run ls
 COPY ["WX.SCRM/WX.SCRM.csproj", "WX.SCRM/"]
 COPY ["WX.AdvancedTools/WX.AdvancedTools.csproj", "WX.AdvancedTools/"]
